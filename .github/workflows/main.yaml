@@ -13,3 +13,6 @@ jobs:
       - name: Install Dependencies
         run: |
           composer install
+      - name: Build the app
+        run: |
+          php artisan key:generate
