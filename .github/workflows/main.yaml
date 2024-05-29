@@ -21,6 +21,10 @@ jobs:
       - name: Install Dependencies
         run: |
           composer install
+      
+      - name: Setup env
+        run: |
+          cp .env.ci .env
 
       - name: Build the app
         run: |
