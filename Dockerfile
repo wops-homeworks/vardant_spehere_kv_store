@@ -37,4 +37,4 @@ COPY --chown=dockeruser:dockeruser . /app
 
 # Start php-fpm server
 ENTRYPOINT ["php"]
-CMD ["artisan","key:generate"]
+CMD ["artisan","serve"]
