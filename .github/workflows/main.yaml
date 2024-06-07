@@ -32,7 +32,12 @@ jobs:
 
       - name: MySQL Container
         run: |
-          docker run -d -p 3306:3306 mysql:latest
+          docker run -d -p 3306:3306 mysql:latest &&
+          sudo mysql &&
+          CREATE USER 'localuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'localuser'; &&
+          CREATE DATABASE test; &&
+          GRANT ALL PRIVILEGES ON test.* TO 'localuser'@'localhost' WITH GRANT OPTION; &&
+          FLUSH PRIVILEGES;
       
       - name: Migrate The Database
         run: |
