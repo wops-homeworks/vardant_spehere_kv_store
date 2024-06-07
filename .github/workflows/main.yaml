@@ -29,3 +29,15 @@ jobs:
       - name: Build the app
         run: |
           php artisan key:generate
+
+      - name: MySQL Container
+        run: |
+          docker run -d -p 3306:3306 mysql:latest
+      
+      - name: Migrate The Database
+        run: |
+          php artisan migrate
+      
+      - name: Unit Test
+        run: 
+          php artisan test
