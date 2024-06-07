@@ -1,0 +1,18 @@
+name: "Main Workflow"
+
+on:
+    pull_request:
+      branches:
+      - dev
+
+jobs:
+  build:
+    name: "Build Laravel App"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.6
+          php artisan key:generate
+      
+      - name: Docker Compose build
+        run: docker-compose up
