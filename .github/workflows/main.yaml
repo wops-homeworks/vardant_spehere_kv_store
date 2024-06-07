@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.6
-          php artisan key:generate
+        uses: actions/checkout@v2
       
       - name: Docker Compose build
         run: docker-compose up
