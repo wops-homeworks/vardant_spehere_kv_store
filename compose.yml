@@ -8,6 +8,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - app-network
+    depends_on:
+      - db
 
   # MySQL Service
   db:
