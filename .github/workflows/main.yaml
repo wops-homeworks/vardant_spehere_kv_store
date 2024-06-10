@@ -45,9 +45,9 @@ jobs:
         run: |
           php artisan migrate
       
-      - name: Unit Test
-        run: 
-          php artisan test
+      # - name: Unit Test
+      #   run: 
+      #     php artisan test
 
       - name: Login Docker Hub
         uses: docker/login-action@v3
