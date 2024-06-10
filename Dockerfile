@@ -30,7 +30,7 @@ USER dockeruser
 
 # Copy necessary files and set ownership
 COPY --chown=dockeruser:dockeruser ./package.json /app
-COPY --chown=dockeruser:dockeruser ./.env.ci /app/.env
+COPY --chown=dockeruser:dockeruser ./.env.example /app/.env
 
 # Copy the rest of the application directory contents
 COPY --chown=dockeruser:dockeruser . /app
