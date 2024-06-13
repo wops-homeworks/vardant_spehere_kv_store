@@ -5,81 +5,10 @@ on:
 
 jobs:
   build:
-    name: "Build Laravel App"
-    runs-on: ubuntu-latest
-    
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.6
-
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-
-      - name: Install Dependencies
-        run: |
-          composer install
-
-      - name: Cache The Vendor
-        uses: actions/cache@v4.0.2
-        with:
-          key: ${{ github.sha }}-php-vendor-cahce
-          path: ./vendor
-      
-      - name: Setup env
-        run: |
-          cp .env.ci .env
-
-      - name: Build the app
-        run: |
-          php artisan key:generate
+    uses: ./.github/workflows/build.yaml
 
   test:
-    runs-on: ubuntu-latest
-    needs: [build]
-    services:
-      mysql:
-        image: mysql:latest
-        ports:
-          - 3306:3306
-        env:
-            MYSQL_ALLOW_EMPTY_PASSWORD: false
-            MYSQL_ROOT_PASSWORD: password
-            MYSQL_USERNAME: root
-            MYSQL_DATABASE: test
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.6
-      
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-
-      - name: Restore The Cache
-        id: php-cache
-        uses: actions/cache@v4.0.2
-        with:
-          key: ${{ github.sha }}-php-vendor-cahce
-          path: ./vendor
-
-      - name: Install Dependencies
-        if: steps.php-cache.outputs.cache-hit != 'true'
-        run: |
-          composer install
-      
-      - name: Setup env
-        run: |
-          cp .env.ci .env
-
-      - name: Migrate The Database
-        run: |
-          php artisan migrate
-      
-      - name: Unit Test
-        run: 
-          php artisan test
+    uses: ./.github/workflows/test.yaml
 
   dockernize:
     runs-on: ubuntu-alpine
