@@ -8,13 +8,13 @@ on:
 
 jobs:
   build:
-    name: Build Laravel App
+    name: Build Laravel
     uses: ./.github/workflows/build.yaml
     with:
       version: "8.2"
 
   test:
-    name: Test Laravel App
+    name: Test Laravel
     needs: [build]
     uses: ./.github/workflows/test.yaml
 
