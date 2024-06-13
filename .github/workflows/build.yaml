@@ -2,12 +2,15 @@ name: "Build Workflow"
 
 on:
   workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
 
 jobs:
   build:
-    name: "Build Laravel App"
+    name: Build Laravel App
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.6
@@ -15,7 +18,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ inputs.version }}
 
       - name: Install Dependencies
         run: |
@@ -26,7 +29,7 @@ jobs:
         with:
           key: ${{ github.sha }}-php-vendor-cahce
           path: ./vendor
-      
+
       - name: Setup env
         run: |
           cp .env.ci .env
