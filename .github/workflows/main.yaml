@@ -1,31 +1,32 @@
 name: "Main Workflow"
 
 on:
-    pull_request:
-      branches:
-      - dev
+  workflow_call:
 
 jobs:
   build:
-    name: "Build Laravel App"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.1.6
+    uses: ./.github/workflows/build.yaml
 
-      - name: Setup PHP with PECL extension
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
+  test:
+    uses: ./.github/workflows/test.yaml
 
-      - name: Install Dependencies
-        run: |
-          composer install
-      
-      - name: Setup env
-        run: |
-          cp .env.ci .env
+  # dockernize:
+  #   runs-on: ubuntu-alpine
+  #   steps:
+  #     - name: Login Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
+  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+  #     - name: Build Docker image
+  #       run: |
+  #         docker build -t laravel-app .
 
-      - name: Build the app
-        run: |
-          php artisan key:generate
+  #     - name: Tag Docker image
+  #       run: |
+  #         docker tag laravel-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/laravel-app:latest
+
+  #     - name: Push To Docker Hub
+  #       run: |
+  #         docker push ${{ secrets.DOCKERHUB_USERNAME }}/laravel-app:latest
