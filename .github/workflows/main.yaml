@@ -24,7 +24,7 @@ jobs:
           composer install
 
       - name: Cache The Vendor
-        uses: actions/cache@4.0.2
+        uses: actions/cache@v4.0.2
         with:
           key: php-vendor-cahce
           path: ./vendor
