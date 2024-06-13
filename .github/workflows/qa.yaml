@@ -7,4 +7,4 @@ on:
 
 jobs:
   test:
-    uses: ./main.yaml@test
+    uses: ./.github/workflows/main.yaml@test
