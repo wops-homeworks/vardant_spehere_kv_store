@@ -2,6 +2,10 @@ name: "Build Workflow"
 
 on:
   workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
 
 jobs:
   build:
@@ -15,7 +19,7 @@ jobs:
       - name: Setup PHP with PECL extension
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: ${{ version }}
 
       - name: Install Dependencies
         run: |
