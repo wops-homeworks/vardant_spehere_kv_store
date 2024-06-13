@@ -26,7 +26,7 @@ jobs:
       - name: Cache The Vendor
         uses: actions/cache@v4.0.2
         with:
-          key: php-vendor-cahce
+          key: ${{ github.sha }}-php-vendor-cahce
           path: ./vendor
       
       - name: Setup env
@@ -78,12 +78,14 @@ jobs:
           php-version: '8.3'
 
       - name: Restore The Cache
+        id: php-cache
         uses: actions/cache@v4.0.2
         with:
-          key: php-vendor-cahce
+          key: ${{ github.sha }}-php-vendor-cahce
           path: ./vendor
 
       - name: Install Dependencies
+        if: steps.php-cache.outputs.cache-hit != 'true'
         run: |
           composer install
       
@@ -98,3 +100,24 @@ jobs:
       - name: Unit Test
         run: 
           php artisan test
+
+  dockernize:
+    runs-on: ubuntu-alpine
+    steps:
+      - name: Login Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+      - name: Build Docker image
+        run: |
+          docker build -t laravel-app .
+
+      - name: Tag Docker image
+        run: |
+          docker tag laravel-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/laravel-app:latest
+
+      - name: Push To Docker Hub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/laravel-app:latest
