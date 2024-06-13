@@ -37,14 +37,6 @@ jobs:
         run: |
           php artisan key:generate
 
-      # - name: Migrate The Database
-      #   run: |
-      #     php artisan migrate
-      
-      # - name: Unit Test
-      #   run: 
-      #     php artisan test
-
       # - name: Login Docker Hub
       #   uses: docker/login-action@v3
       #   with:
@@ -98,3 +90,11 @@ jobs:
       - name: Setup env
         run: |
           cp .env.ci .env
+
+      - name: Migrate The Database
+        run: |
+          php artisan migrate
+      
+      - name: Unit Test
+        run: 
+          php artisan test
