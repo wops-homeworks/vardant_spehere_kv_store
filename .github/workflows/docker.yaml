@@ -2,6 +2,12 @@ name: "Docker Build Push Workflow"
 
 on:
   workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+
 
 jobs:
   dockernize:
