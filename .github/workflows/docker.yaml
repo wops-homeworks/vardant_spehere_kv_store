@@ -1,11 +1,11 @@
-name: "Build Workflow"
+name: "Docker Build Push Workflow"
 
 on:
   workflow_call:
 
 jobs:
   dockernize:
-    runs-on: ubuntu-alpine
+    runs-on: ubuntu-latest
     steps:
       - name: Login Docker Hub
         uses: docker/login-action@v3
