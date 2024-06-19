@@ -1,0 +1,37 @@
+name: "Main Workflow"
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+
+jobs:
+  build:
+    name: Build Laravel
+    uses: ./.github/workflows/build.yaml
+    with:
+      version: "8.2"
+
+  second_build:
+    name: Build Laravel
+    uses: ./.github/workflows/build.yaml
+    with:
+      version: "8.3"
+
+  test:
+    name: Test Laravel
+    needs: [build]
+    uses: ./.github/workflows/test.yaml
+
+  docker_build : 
+    name: Docker Build & Push
+    needs: [build]
+    uses: ./.github/workflows/docker.yaml
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  code_scane:
+    name: Code Scan
+    uses: ./.github/workflows/code_scan.yaml

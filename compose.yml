@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # PHP Service
+  app:
+    container_name: my_docker_laravel
+    image: justro666/laravel-app
+    networks:
+      - app-network
+
+  # MySQL Service
+  db:
+    image: mysql:5.7
+    container_name: laravel-db
+    environment:
+      MYSQL_DATABASE: key_value_store
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+      MYSQL_USER: laravel
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  dbdata:
+    driver: local

@@ -1,0 +1,39 @@
+name: "Build Workflow"
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+
+jobs:
+  build:
+    name: Build Laravel App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.6
+
+      - name: Setup PHP with PECL extension
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ inputs.version }}
+
+      - name: Install Dependencies
+        run: |
+          composer install
+
+      - name: Cache The Vendor
+        uses: actions/cache@v4.0.2
+        with:
+          key: ${{ github.sha }}-php-vendor-cahce
+          path: ./vendor
+
+      - name: Setup env
+        run: |
+          cp .env.ci .env
+
+      - name: Build the app
+        run: |
+          php artisan key:generate
