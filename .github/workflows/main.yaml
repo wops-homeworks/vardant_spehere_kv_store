@@ -27,7 +27,7 @@ jobs:
   docker_build : 
     name: Docker Build & Push
     needs: [build]
-    uses: ./.github/workflows/dokcer.yaml
+    uses: ./.github/workflows/docker.yaml
 
   code_scane:
     name: Code Scan
